@@ -6,5 +6,5 @@ uv = "0.10.8"
 python.uv_venv_auto = true
 
 [env]
-SQLITE_DB_DIR = "sqlite-databases"
 LITECLI_CONFIG = "litecli.ini"
+SQLITE_DB = "sqlite-databases/sqlite_database_mastery.sqlite"

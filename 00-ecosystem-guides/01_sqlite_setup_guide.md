@@ -139,14 +139,52 @@ _______________________________________________________________________________
 Add this to the end of the file
 ```sh
 [env]
-SQLITE_DB_DIR = "sqlite-databases"
 LITECLI_CONFIG = "litecli.ini"
+SQLITE_DB = "sqlite-databases/sqlite_database_mastery.sqlite"
 ```
 
 Note: 
 - For obvious security reasons, don't put any sensitive data like
 passwords in your `mise.toml` or in any file in the repo.
 
+_______________________________________________________________________________
+
+### Create a `.mise-tasks`
+
+```sh
+mkdir .mise-tasks
+```
+_______________________________________________________________________________
+
+### Create a `connect` task
+
+Add this to the file:
+```sh
+touch .mise-tasks/connect.sh
+```
+
+Add this to the file
+```sh
+#!/usr/bin/env bash
+#MISE description="Connect to a database using litecli"
+#MISE quiet=true
+
+litecli \
+--liteclirc "$LITECLI_CONFIG" \
+--database "$SQLITE_DB"
+```
+_______________________________________________________________________________
+
+### Give `mise` permission to use the scripts in `.mise-tasks`
+
+```sh
+chmod +x .mise-tasks/*.sh
+```
+
+Confirm that this worked by running:
+```sh
+mise tasks
+```
 _______________________________________________________________________________
 
 ## Setup a Python virtual environment
@@ -284,4 +322,61 @@ uv add --dev litecli==1.17.1
 ```
 
 I chose LiteCLI version 1.17.1
+_______________________________________________________________________________
+
+### Create a database
+
+Note: Use underscores for the database name 
+
+```sh
+sqlite3 sqlite-databases/sqlite_database_mastery.sqlite
+```
+
+You will be logged into the `sqlite prompt`,
+which will look like this:
+```
+sqlite3 sqlite-databases/sqlite_database_mastery.sqlite
+SQLite version 3.51.2 2026-01-09 17:27:48
+Enter ".help" for usage hints.
+```
+_______________________________________________________________________________
+
+To clear the prompt, press `Ctrl + l`
+
+Your prompt will look like this:
+```
+sqlite>
+```
+
+Create a table with any type of column you want.
+
+E.g. This creates a table called `weekend_sales` with a two columns called,
+`saturday_sales` and `sunday_sales`
+
+```sql
+CREATE TABLE weekend_sales(
+    saturday_sales INTEGER, 
+    sunday_sales INTEGER
+);
+```
+_______________________________________________________________________________
+
+To exit the `sqlite prompt`, type this and press enter:
+```sh
+.exit
+```
+_______________________________________________________________________________
+
+### Connect to the database listed in `mise.toml` using `LiteCLI`
+
+```sh
+mise connect
+```
+
+Your prompt will look like this now:
+```sh
+sqlite-databases/sqlite_database_mastery.sqlite 🪶
+```
+
+To exit the prompt, just type `exit` and press enter.
 _______________________________________________________________________________
