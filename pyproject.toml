@@ -1,0 +1,10 @@
+[project]
+name = "sqlite-database-mastery"
+version = "0.1.0"
+requires-python = "==3.14.3"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "litecli==1.17.1",
+]

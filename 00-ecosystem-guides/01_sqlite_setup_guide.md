@@ -36,6 +36,11 @@ touch .gitignore
 
 Add this to the file:
 ```gitignore
+# The Python virtual environment
+# This is where uv will install the Python version required for the project
+# and the project dependencies
+.venv/
+
 # SQLite Database Files
 sqlite-databases/
 ```
@@ -127,4 +132,156 @@ Add this to the end of your `mise.toml` file
 [settings]
 python.uv_venv_auto = true
 ```
+_______________________________________________________________________________
+
+### Add environment variables to your `mise.toml` file
+
+Add this to the end of the file
+```sh
+[env]
+SQLITE_DB_DIR = "sqlite-databases"
+LITECLI_CONFIG = "litecli.ini"
+```
+
+Note: 
+- For obvious security reasons, don't put any sensitive data like
+passwords in your `mise.toml` or in any file in the repo.
+
+_______________________________________________________________________________
+
+## Setup a Python virtual environment
+_______________________________________________________________________________
+
+### Decide on what version of `Python` you want your project use
+
+Note: 
+- I will only be using `mise` to check. 
+- Python should NOT be installed by `mise` when setting up a project.
+- Use the `uv` that was installed by mise to setup Python.
+
+Use this command check what is the latest version of Python available to
+download on your current mise toolchain.
+```sh
+mise latest python
+```
+
+To view a list of available Python versions use this command:
+```sh
+mise ls-remote python
+```
+_______________________________________________________________________________
+
+For the guide I have chosen Python version 3.14.2
+
+Initialize the project
+```sh
+uv init --bare -p 3.14.3
+```
+
+This will create a `pyproject.toml` file
+
+_______________________________________________________________________________
+
+Open the `pyproject.toml` file and change `>=` to `==`
+
+So this line:
+```toml
+requires-python = ">=3.14.3"
+```
+
+Should be changed to 
+```toml
+requires-python = "==3.14.3"
+```
+_______________________________________________________________________________
+
+Create a .python-version file:
+
+```sh
+touch .python-version
+```
+
+Add your python version to the file:
+```sh
+echo 3.14.3 > .python-version
+```
+_______________________________________________________________________________
+
+Please note:
+
+At this point, your project is NOT using the Python version that is listed 
+in your `pyproject.toml` or your `.python-version`
+
+You can confirm this by running `which python`
+
+If you get something like this:
+```
+/usr/bin/python
+```
+
+That means that your project is using the Python version 
+of your operating system.
+
+This is because you have not created and activated 
+a Python virtual environment.
+
+_______________________________________________________________________________
+
+Run this command to remind yourself of what Python version you chose:
+```sh
+cat .python-version
+```
+
+Create a Python virtual environment.
+```sh
+uv venv -p 3.14.3
+```
+
+This is where `uv` will install the Python version required for this project.
+
+When you install project dependencies later, 
+they will also be installed in this directory.
+_______________________________________________________________________________
+
+The last step to this:
+```sh
+uv sync
+```
+
+Then exit the project directory
+```sh
+cd ..
+```
+
+And re-enter the project directory
+```sh
+cd sqlite-database-mastery
+```
+
+Now run this command:
+```sh
+which python
+```
+
+If you see this at the end of your path,
+then that means that your project is using the virtual enviroment 
+that was set by uv.
+```
+.venv/bin/python
+```
+_______________________________________________________________________________
+
+### Install LiteCLI
+
+You can check what is the latest version of LiteCLI by checking this link:
+```
+https://pypi.org/project/litecli/
+```
+
+Use uv to install LiteCLI as a development dependency
+```sh
+uv add --dev litecli==1.17.1
+```
+
+I chose LiteCLI version 1.17.1
 _______________________________________________________________________________

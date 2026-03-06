@@ -1,2 +1,7 @@
+# The Python virtual environment
+# This is where uv will install the Python version required for the project
+# and the project dependencies
+.venv/
+
 # SQLite Database Files
 sqlite-databases/
