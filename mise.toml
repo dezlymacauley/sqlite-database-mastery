@@ -7,4 +7,4 @@ python.uv_venv_auto = true
 
 [env]
 LITECLI_CONFIG = "litecli.ini"
-SQLITE_DB = "sqlite-databases/sqlite_database_mastery.sqlite"
+SQLITE_DB = ".sqlite-databases/sqlite_database_mastery.sqlite"

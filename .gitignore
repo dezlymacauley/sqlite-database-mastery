@@ -4,4 +4,4 @@
 .venv/
 
 # SQLite Database Files
-sqlite-databases/
+.sqlite-databases/
