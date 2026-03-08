@@ -1,5 +1,5 @@
 /*
-    ABOUT: INTEGER and the PRIMARY KEY constraint
+    ABOUT: INTEGER
 
     The INTEGER data type is used to store whole numbers.
     These are numbers that have no decimal part.
