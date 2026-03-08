@@ -5,6 +5,9 @@
     These are numbers that have no decimal part.
     You can store both positive and negative numbers.
 
+    The integer type is also used when you want to store money,
+    without loosing any precision.
+
 */
 
 -------------------------------------------------------------------------------
@@ -27,7 +30,11 @@
 CREATE TABLE user_info(
     user_id INTEGER PRIMARY KEY,
     has_premium INTEGER
-);
+) STRICT;
+
+-- The keyword `STRICT` is a table modifier.
+-- This makes SQLite reject any insertation of data into a column that does
+-- not match the data type that you specified when creating the table.
 
 -------------------------------------------------------------------------------
 
