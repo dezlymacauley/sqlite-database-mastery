@@ -1,4 +1,4 @@
-# SQLite Setup Guide
+# SQLite Database Setup Guide
 _______________________________________________________________________________
 
 ## Part 1: System Configuration
