@@ -1,5 +1,5 @@
 /*
-    ABOUT: Indexes
+    ABOUT: Experession Indexes
 
     Indexes are used to reduced the amout of time that SQLite 
     takes to complete a query on a database.
@@ -17,6 +17,11 @@
 
     They way your database is used, 
     will guide you on where indexes should be placed.
+
+    ___________________________________________________________________________
+    
+    An expression index is an index that uses a column in a function to
+    stored some kind of result for each row in the table.
 
     ___________________________________________________________________________
 

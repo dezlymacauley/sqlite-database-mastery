@@ -1,7 +1,7 @@
 /*
     ABOUT: Composite Indexes
 
-    This is when you have an index that is placed on multiple columns.
+    A composite index is an index that includes multiple columns.
 
 */
 
