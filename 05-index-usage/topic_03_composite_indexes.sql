@@ -11,8 +11,8 @@
 CREATE INDEX composite_index_fname_lname_bday 
 on users (first_name, last_name, birthday);
 
--- TIP: When declaring the columns, 
--- declare them in the order that they appear in the table.
+-- TIP: When declaring the columns in the index, the order matters
+-- as you will see in the examples below
 
 -- E.g. 
 
@@ -143,6 +143,7 @@ WHERE last_name = 'Macauley' AND first_name = 'Dezly';
 
 -------------------------------------------------------------------------------
 
+-- Example 5
 EXPLAIN QUERY PLAN
 SELECT * FROM users 
 WHERE first_name = 'Tim' AND birthday = '1995-02-06';
@@ -164,5 +165,27 @@ WHERE first_name = 'Tim' AND birthday = '1995-02-06';
 
 -------------------------------------------------------------------------------
 
+-- Example 5
+
+-- NOTE: Any indexes in the query that are after the first `range condition`
+-- in a query will not be used.
+
+EXPLAIN QUERY PLAN
+SELECT *
+FROM users
+WHERE first_name = 'Tim'
+AND last_name >= 'M'
+AND birthday = '1995-02-06';
+
+/*
+    ***************************[ 1. row ]***************************
+    id      | 3
+    parent  | 0
+    notused | 51
+    detail  | SEARCH users USING INDEX composite_index_fname_lname_bday (first_name=? AND last_name>?)
+*/
+
+-- The range condition is `AND last_name >= 'M`
+-- Any indexes in the query after the rang
 
 -------------------------------------------------------------------------------
