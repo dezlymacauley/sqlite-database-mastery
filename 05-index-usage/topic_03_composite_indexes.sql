@@ -82,6 +82,9 @@ SELECT * FROM users WHERE first_name = 'Dezly';
 */
 
 -- As you can see, the composite index will be used:
+-- As long as the column `first_name` appears in your query, the condition
+-- is satified. It does not matter if `last_name` and `birthday` are not
+-- being used in the query.
 
 -------------------------------------------------------------------------------
 
@@ -117,6 +120,49 @@ WHERE first_name = 'Dezly' AND last_name = 'Macauley';
 */
 
 -- As you can see, the composite index WILL be be used in this case,
--- because the query uses the indexes in the the correct order.
+-- because the query contains `first_name` and `last_name`
+
+-------------------------------------------------------------------------------
+
+-- Example 4
+EXPLAIN QUERY PLAN
+SELECT * FROM users 
+WHERE last_name = 'Macauley' AND first_name = 'Dezly';
+
+/*
+    ***************************[ 1. row ]***************************
+    id      | 3
+    parent  | 0
+    notused | 61
+    detail  | SEARCH users USING INDEX composite_index_fname_lname_bday (first_name=? AND last_name=?)
+*/
+
+-- As you can see, the composite index WILL be be used in this case.
+-- This is because SQLite will reorder the conditions of your query.
+-- It looks for `first_name` and then `last_name` and then executes.
+
+-------------------------------------------------------------------------------
+
+EXPLAIN QUERY PLAN
+SELECT * FROM users 
+WHERE first_name = 'Tim' AND birthday = '1995-02-06';
+
+/*
+    ***************************[ 1. row ]***************************
+    id      | 3
+    parent  | 0
+    notused | 62
+    detail  | SEARCH users USING INDEX composite_index_fname_lname_bday (first_name=?)
+*/
+
+-- This works... but it is only partially using the composite index
+-- You'll noticed that the index on `birthday` column is not being used.
+-- This is because SQLite looks for `first_name` in the query,
+-- then `last_name`, and then `birthday`.
+-- There is no `last_name` in the query, 
+-- so the index on `birthday` can't be used.
+
+-------------------------------------------------------------------------------
+
 
 -------------------------------------------------------------------------------
