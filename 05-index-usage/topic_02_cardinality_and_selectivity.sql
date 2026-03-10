@@ -59,12 +59,13 @@ SELECT count(DISTINCT birthday) FROM users;
 
 -- SECTION: How to calculate the Selectivity
 
+-- NOTE: I'm using printf with the format specifier `%.2f` to ensure that the
+-- output displayed is always two decimals.
+
 SELECT 
-   round((count(DISTINCT birthday) * 1.0) / (count(*) * 1.0), 2)
-AS 
-   "Selectivity of birthday column"
-FROM 
-   users;
+   printf('%.2f', (COUNT(DISTINCT birthday)*1.0)/(COUNT(*)*1.0))
+AS "Selectivity of birthday column"
+FROM users;
 
 /*
     +--------------------------------+
